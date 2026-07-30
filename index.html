@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mshaugh/nerdfont-webfonts@v3.3.0/build/firacode-nerd-font.css">
+<style>
+  :root{
+    /* Catppuccin Frappé */
+    --base:#303446;
+    --mantle:#292c3c;
+    --crust:#232634;
+    --surface0:#414559;
+    --surface1:#51576d;
+    --surface2:#626880;
+    --overlay0:#737994;
+    --overlay1:#838ba7;
+    --text:#c6d0f5;
+    --subtext1:#b5bfe2;
+    --subtext0:#a5adce;
+    --lavender:#babbf1;
+    --blue:#8caaee;
+    --sapphire:#85c1dc;
+    --mauve:#ca9ee6;
+    --pink:#f4b8e4;
+    --red:#e78284;
+    --green:#a6d189;
+    --yellow:#e5c890;
+    --peach:#ef9f76;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html, body{
+    height:100%;
+    background:var(--base);
+    color:var(--text);
+    font-family:'FiraCode Nerd Font', 'Segoe UI', system-ui, sans-serif;
+    overflow:hidden;
+  }
+
+  /* ============ SCREEN: CLOCK (locked) ============ */
+  #clock-screen{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    user-select:none;
+  }
+  #clock-time{
+    font-size:6rem;
+    font-weight:300;
+    letter-spacing:2px;
+    color:var(--text);
+    font-variant-numeric:tabular-nums;
+  }
+  #clock-date{
+    position:absolute;
+    bottom:8vh;
+    left:50%;
+    transform:translateX(-50%);
+    color:var(--overlay0);
+    font-size:1rem;
+  }
+
+  /* ============ SCREEN: BOOKMARKS ============ */
+  #bookmarks-screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    padding:6vh 4vw;
+    overflow-y:auto;
+  }
+  #bookmarks-screen.show{ display:block; }
+
+  #back-btn{
+    position:fixed;
+    top:16px;
+    left:20px;
+    background:var(--surface0);
+    color:var(--subtext1);
+    border:1px solid var(--surface2);
+    border-radius:999px;
+    padding:6px 16px;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  #back-btn:hover{ border-color:var(--lavender); color:var(--text); }
+
+  #board{
+    max-width:1100px;
+    margin:0 auto;
+    padding-top:6vh;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:32px;
+  }
+  .category{
+    min-width:180px;
+  }
+  .cat-title{
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--peach);
+    border-bottom:1px solid var(--surface1);
+    padding-bottom:8px;
+    margin-bottom:10px;
+  }
+  .link-list{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .link-item a{
+    color:var(--blue);
+    text-decoration:none;
+    font-size:0.95rem;
+  }
+  .link-item a:hover{ color:var(--sapphire); text-decoration:underline; }
+
+  /* ============ SCREEN: SEARCH OVERLAY ============ */
+  #search-screen{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:var(--crust);
+    z-index:200;
+  }
+  #search-screen.show{ display:flex; }
+  #search-text{
+    font-size:2.2rem;
+    color:var(--text);
+    font-weight:300;
+    max-width:90vw;
+    word-break:break-word;
+    text-align:center;
+    border-bottom:2px solid var(--lavender);
+    padding-bottom:6px;
+  }
+  #search-text:empty::before{
+    content:"Search Brave...";
+    color:var(--overlay0);
+  }
+</style>
+</head>
+<body>
+
+<!-- Locked clock screen -->
+<div id="clock-screen">
+  <div id="clock-time">00:00:00</div>
+  <div id="clock-date"></div>
+</div>
+
+<!-- Bookmarks screen -->
+<div id="bookmarks-screen">
+  <button id="back-btn">&#8592; back</button>
+
+  <!--
+    ============================================================
+    BOOKMARKS
+    Edit directly below. Each "category" block is one header/column.
+    Copy the <div class="category">...</div> block to add another header,
+    and copy the <li class="link-item">...</li> line to add another link.
+    ============================================================
+  -->
+  <div id="board">
+
+    <div class="category">
+      <div class="cat-title">Pirate</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://c411.org/torrents/b415827f3fbaabf1886c9ecfbb6fb82b34b6562d">c411</a></li>
+        <li class="link-item"><a href="https://rutracker.me">RuTracker</a></li>
+        <li class="link-item"><a href="https://piratebayproxy.net/">Pirate Bay</a></li>
+      </ul>
+    </div>
+
+    <div class="category">
+      <div class="cat-title">Marketplace</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://www.amazon.fr/">Amazon</a></li>
+        <li class="link-item"><a href="https://www.ebay.fr/">E-Bay</a></li>
+        <li class="link-item"><a href="https://fr.aliexpress.com/">Aliexpress</a></li>
+        <li class="link-item"><a href="https://french.alibaba.com/">Alibaba</a></li>
+      </ul>
+    </div>
+
+    <div class="category">
+      <div class="cat-title">Ai</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://claude.ai">Claude</a></li>
+        <li class="link-item"><a href="https://www.perplexity.ai/">Perplexity</a></li>
+        <li class="link-item"><a href="hhttps://chatgpt.com/">ChatGPT</a></li>
+      </ul>
+    </div>
+    <div class="category">
+      <div class="cat-title">Main Website</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="https://www.youtube.com/">Youtube</a></li>
+        <li class="link-item"><a href="https://www.perplexity.ai/">Perplexity</a></li>
+      </ul>
+    </div>
+    <div class="category">
+      <div class="cat-title">Local</div>
+      <ul class="link-list">
+        <li class="link-item"><a href="http://127.0.0.1:8384/">Syncthing</a></li>
+        <li class="link-item"><a href="http://localhost:631">Cups</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- Search overlay -->
+<div id="search-screen">
+  <div id="search-text" contenteditable="true" spellcheck="false"></div>
+</div>
+
+<script>
+(function(){
+  const SEARCH_URL = "https://search.brave.com/search?q=";
+
+  // ---- GitHub edit shortcut ----
+  // Fill these in with your repo details. Pressing Insert opens GitHub's
+  // web editor for this file directly, in a new tab.
+  const GH_OWNER  = "boeng1337";
+  const GH_REPO   = "Linux";
+  const GH_BRANCH = "Start";
+  const GH_PATH   = "index.html";
+  const GH_EDIT_URL = `https://github.com/${GH_OWNER}/${GH_REPO}/edit/${GH_BRANCH}/${GH_PATH}`;
+
+  const clockScreen = document.getElementById('clock-screen');
+  const bookmarksScreen = document.getElementById('bookmarks-screen');
+  const searchScreen = document.getElementById('search-screen');
+  const searchText = document.getElementById('search-text');
+  const clockTime = document.getElementById('clock-time');
+  const clockDate = document.getElementById('clock-date');
+  const backBtn = document.getElementById('back-btn');
+
+  // ---- Clock ----
+  function pad(n){ return n.toString().padStart(2, '0'); }
+  function tick(){
+    const now = new Date();
+    clockTime.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    clockDate.textContent = now.toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric' });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- Navigation between clock / bookmarks ----
+  function showBookmarks(){
+    clockScreen.style.display = 'none';
+    bookmarksScreen.classList.add('show');
+  }
+  function showClock(){
+    bookmarksScreen.classList.remove('show');
+    clockScreen.style.display = 'flex';
+  }
+
+  clockScreen.addEventListener('click', showBookmarks);
+  backBtn.addEventListener('click', showClock);
+
+  // ---- Search overlay: triggered by typing anywhere ----
+  function isTypingKey(e){
+    // ignore modifier combos, function keys, etc. Only plain printable characters.
+    return e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey;
+  }
+
+  function openSearch(initialChar){
+    searchScreen.classList.add('show');
+    searchText.textContent = initialChar || '';
+    // place cursor at end
+    searchText.focus();
+    const range = document.createRange();
+    range.selectNodeContents(searchText);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  function closeSearch(){
+    searchScreen.classList.remove('show');
+    searchText.textContent = '';
+  }
+
+  function looksLikeUrl(str){
+    // matches http(s)://..., or bare domains like example.com, sub.example.co.uk/path
+    return /^(https?:\/\/)?([\w-]+\.)+[a-z]{2,}(:\d+)?([\/?#].*)?$/i.test(str.trim());
+}
+
+function runSearch(){
+    const q = searchText.textContent.trim();
+    if(!q){
+        closeSearch();
+        return;
+    }
+    if(looksLikeUrl(q)){
+        const url = /^https?:\/\//i.test(q) ? q : `https://${q}`;
+        window.location.href = url;
+    } else {
+        window.location.href = SEARCH_URL + encodeURIComponent(q);
+    }
+}
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Insert'){
+      e.preventDefault();
+      window.open(GH_EDIT_URL, '_blank');
+      return;
+    }
+    if(searchScreen.classList.contains('show')){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        runSearch();
+      } else if(e.key === 'Escape'){
+        closeSearch();
+      }
+      return;
+    }
+    // not currently searching: any printable key opens the search overlay
+    if(isTypingKey(e)){
+      e.preventDefault();
+      openSearch(e.key);
+    }
+  });
+document.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData).getData('text');
+    if(!pasted) return;
+
+    if(!searchScreen.classList.contains('show')){
+        openSearch('');
+    }
+    searchText.textContent += pasted;
+
+    // move cursor to end
+    const range = document.createRange();
+    range.selectNodeContents(searchText);
+    range.collapse(false);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+});
+})();
+</script>
+
+</body>
+</html>
